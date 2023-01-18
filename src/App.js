@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import data from "./asset/data.json";
+import Header from "./components/Header";
+import Container from "./components/Container";
+import Darkmode from "./theme/Darkmode";
 
 function App() {
+  const [search, setSearch] = useState("");
+  const [emoji, setEmoji] = useState([]);
+  useEffect(() => {
+    const filterData = data.filter((item) =>
+      item.keywords.toLowerCase().includes(search.toLowerCase())
+    );
+    setEmoji(filterData);
+  }, [search]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <Darkmode />
+        <Header setSearch={setSearch} />
+      </div>
+      <Container data={emoji} />
     </div>
   );
 }
